@@ -6,14 +6,17 @@ import TextInputfirst from './textInputFirst';
 import Desc from './desc';
 import Note from './noteTextBox';
 import Save from './save';
+import CharLimit from './charLimit';
 
 const Container = () => (
   <div className="container">
-    <ContentHead /><ContentHeadSide />
-    <TextInputfirst />
-    <Desc />
-    <Note />
-    <Save />
+    <div><ContentHead /><ContentHeadSide /></div>
+    <div><TextInputfirst /></div>
+    <div><Desc /></div>
+    <div><Note /></div>
+    <div><Save />
+      <CharLimit />
+    </div>
   </div>
 );
 

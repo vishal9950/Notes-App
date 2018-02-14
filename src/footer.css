@@ -1,8 +1,9 @@
 footer {
-    position: fixed;
-    bottom: 0px;
+    position: relative;
+    top: 140px;
     text-align: center;
     width: 100vw;
     padding: 10px;
     background-color: white;
+    font-weight: bold;
 }
