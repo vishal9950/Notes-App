@@ -1,0 +1,11 @@
+.desc {
+    position: relative;
+    top: 100px;
+    left: 30px;
+    color: gray;
+    font-style: italic;
+}
+
+.material-icons { 
+    font-size: 18px;
+}
