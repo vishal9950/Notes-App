@@ -1,0 +1,7 @@
+.contentHead {
+    display: inline-block;
+    position: relative;
+    top: 60px;
+    left: 30px;
+    font-weight: bold;
+}

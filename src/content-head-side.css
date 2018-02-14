@@ -1,0 +1,12 @@
+.contentHeadSide {
+    display: inline-block;
+    position: relative;
+    top: 60px;
+    left: 75%;
+    right: 10px;
+    font-weight: bold;
+    border: 1px solid lightgray;
+    background-color: #ebe9e9;
+    padding: 10px;
+    border-radius: 5px;
+}
