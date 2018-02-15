@@ -1,12 +1,14 @@
 import React from 'react';
+import { PropTypes } from 'prop-types';
+
 import './container.css';
-import ContentHead from './content-head';
-import ContentHeadSide from './content-head-side';
-import TextInputfirst from './textInputFirst';
-import Desc from './desc';
-import Note from './noteTextBox';
-import Save from './save';
-import CharLimit from './charLimit';
+import ContentHead from '../ContentHead/content-head';
+import ContentHeadSide from '../ContentHeadSide/content-head-side';
+import TextInputfirst from '../TextInputFirst/textInputFirst';
+import Desc from '../Description/desc';
+import Note from '../NoteTextBox/noteTextBox';
+import Save from '../SaveButton/save';
+import CharLimit from '../CharLimit/charLimit';
 
 // const Container = () => (
 //   <div className="container">
@@ -27,23 +29,20 @@ class Container extends React.Component {
       maxLen: 150,
       charLen: 150,
       allChars: '',
-      storeNotes: [],
+      // storeNotes: [],
       title: '',
     };
-    this.checkCharLimit = this.checkCharLimit.bind(this);
-    this.onClickHandler = this.onClickHandler.bind(this);
-    this.updatetitle = this.updatetitle.bind(this);
+    Container.propTypes = {
+      onChange: PropTypes.func.isRequired,
+    };
+    // this.checkCharLimit = this.checkCharLimit.bind(this);
+    // this.onClickHandler = this.onClickHandler.bind(this);
+    // this.updatetitle = this.updatetitle.bind(this);
   }
 
   onClickHandler = () => {
-    const note = {
-      title: this.state.title,
-      content: this.state.allChars,
-    };
-    const { storeNotes } = this.state;
-    storeNotes.push(note);
+    this.props.onChange(this.state.title, this.state.allChars);
     this.setState({
-      storeNotes,
       maxLen: 150,
       charLen: 150,
       allChars: '',
@@ -62,7 +61,6 @@ class Container extends React.Component {
       charLen: this.state.maxLen - event.target.value.length,
       allChars: `${event.target.value}`,
     });
-    return this.state.charLen;
   }
 
   render() {
