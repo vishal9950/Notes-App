@@ -11,12 +11,19 @@ class Save extends React.Component {
     super(props);
     Save.propTypes = {
       value: PropTypes.string.isRequired,
+      onClick: PropTypes.func.isRequired,
     };
   }
 
   render() {
+    const { onClick } = this.props;
     return (
-      <div className="save">{this.props.value}</div>
+      <button
+        className="save"
+        onClick={onClick}
+      >
+        {this.props.value}
+      </button>
     );
   }
 }

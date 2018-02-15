@@ -10,7 +10,8 @@ class Note extends React.Component {
       placeholder: PropTypes.string.isRequired,
       maxLen: PropTypes.number.isRequired,
       onChange: PropTypes.func.isRequired,
-      style: PropTypes.isRequired,
+      style: PropTypes.object.isRequired,
+      value: PropTypes.string.isRequired,
     };
   }
 
@@ -52,6 +53,7 @@ class Note extends React.Component {
       <textarea
         id="txtarea"
         className="note"
+        value={this.props.value}
         style={this.props.style}
         placeholder={this.props.placeholder}
         maxLength={this.props.maxLen}

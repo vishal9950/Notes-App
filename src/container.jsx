@@ -27,8 +27,34 @@ class Container extends React.Component {
       maxLen: 150,
       charLen: 150,
       allChars: '',
+      storeNotes: [],
+      title: '',
     };
     this.checkCharLimit = this.checkCharLimit.bind(this);
+    this.onClickHandler = this.onClickHandler.bind(this);
+    this.updatetitle = this.updatetitle.bind(this);
+  }
+
+  onClickHandler = () => {
+    const note = {
+      title: this.state.title,
+      content: this.state.allChars,
+    };
+    const { storeNotes } = this.state;
+    storeNotes.push(note);
+    this.setState({
+      storeNotes,
+      maxLen: 150,
+      charLen: 150,
+      allChars: '',
+      title: '',
+    });
+  }
+
+  updatetitle = (event) => {
+    this.setState({
+      title: `${event.target.value}`,
+    });
   }
 
   checkCharLimit = (event) => {
@@ -55,10 +81,10 @@ class Container extends React.Component {
     return (
       <div className="container">
         <div><ContentHead value="Note Title" /><ContentHeadSide value="en" /></div>
-        <div><TextInputfirst value="Note Title" /></div>
+        <div><TextInputfirst value={this.state.title} placeholder="Note Title" onChange={this.updatetitle} /></div>
         <div><Desc text="Please type your note below" icon="assignment" /></div>
-        <div><Note placeholder="Your note goes here..." maxLen={this.state.maxLen} onChange={this.checkCharLimit} style={style} /></div>
-        <div><Save value="Save" />
+        <div><Note value={this.state.allChars} placeholder="Your note goes here..." maxLen={this.state.maxLen} onChange={this.checkCharLimit} style={style} /></div>
+        <div><Save value="Save" onClick={this.onClickHandler} />
           <CharLimit limit={this.state.charLen} value=" characters left" />
         </div>
       </div>

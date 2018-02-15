@@ -16,7 +16,7 @@ class Footer extends React.Component {
 
   render() {
     return (
-      <footer>{this.props.value}</footer>
+      <footer className="footer">{this.props.value}</footer>
     );
   }
 }

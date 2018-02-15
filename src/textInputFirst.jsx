@@ -10,13 +10,23 @@ class TextInputFirst extends React.Component {
   constructor(props) {
     super(props);
     TextInputFirst.propTypes = {
+      placeholder: PropTypes.string.isRequired,
       value: PropTypes.string.isRequired,
+      onChange: PropTypes.func.isRequired,
     };
   }
 
   render() {
+    const { onChange } = this.props;
     return (
-      <input className="txtInp" type="text" name="title" placeholder={this.props.value} />
+      <input
+        value={this.props.value}
+        className="txtInp"
+        type="text"
+        name="title"
+        onChange={onChange}
+        placeholder={this.props.placeholder}
+      />
     );
   }
 }
