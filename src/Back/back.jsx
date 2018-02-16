@@ -11,14 +11,15 @@ import Container from '../Container/container';
 // <Header title="Start Taking Notes" /><Container /><Footer value="About Us" /></div>
 // );
 
-const headerTitle = 'Start Taking Notes';
-const footerText = 'About Us';
 
 class Back extends React.Component {
   constructor(props) {
     super(props);
     Back.propTypes = {
       onChange: PropTypes.func.isRequired,
+      page: PropTypes.number.isRequired,
+      storeNotes: PropTypes.array.isRequired,
+      length: PropTypes.number.isRequired,
     };
   }
 
@@ -26,10 +27,20 @@ class Back extends React.Component {
     this.props.onChange(title, allChars);
   }
 
+  onChangeHandlerFooter = () => {
+    this.props.onChange();
+  }
+
+  setPage = () => {
+    if (this.props.page === 1) {
+      return (<div className="App-main"><Header title="Start Taking Notes" /><Container onChange={this.onChangeHandler} page={this.props.page} /><Footer value="About Us" page={this.props.page} onChange={this.onChangeHandlerFooter} /></div>);
+    }
+    return (<div className="App-main"><Header title="Saved Notes" /><Container page={this.props.page} storeNotes={this.props.storeNotes} onChange={this.onChangeHandler} length={this.props.length} /><Footer value="Create new Note" page={this.props.page} onChange={this.onChangeHandlerFooter} /></div>);
+  }
+
   render() {
-    return (
-      <div className="back"><Header title={headerTitle} /><Container onChange={this.onChangeHandler} /><Footer value={footerText} /></div>
-    );
+    const view = this.setPage();
+    return view;
   }
 }
 

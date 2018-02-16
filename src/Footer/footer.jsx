@@ -11,13 +11,25 @@ class Footer extends React.Component {
     super(props);
     Footer.propTypes = {
       value: PropTypes.string.isRequired,
+      page: PropTypes.number.isRequired,
+      onChange: PropTypes.func.isRequired,
     };
   }
 
+  onClickHandler = () => {
+    this.props.onChange();
+  }
+
+  setPage = () => {
+    if (this.props.page === 1) {
+      return (<footer className="Footer-footer">{this.props.value}</footer>);
+    }
+    return (<button className="Footer-button" onClick={this.onClickHandler}>{this.props.value}</button>);
+  }
+
   render() {
-    return (
-      <footer className="footer">{this.props.value}</footer>
-    );
+    const view = this.setPage();
+    return view;
   }
 }
 

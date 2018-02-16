@@ -1,0 +1,7 @@
+.NoteContent-note {
+    width: 90%;
+    background-color: white;
+    border: 1px solid lightgray;
+    position: relative;
+    left: 30px;
+}
