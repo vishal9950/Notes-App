@@ -6,9 +6,15 @@ class Heading extends React.Component {
   constructor(props) {
     super(props);
     Heading.propTypes = {
+      // notekey: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
+      // onClick: PropTypes.func.isRequired,
     };
   }
+
+  // onClickHandler = () => {
+  //   this.props.onClick(this.props.notekey);
+  // }
 
   render() {
     return (

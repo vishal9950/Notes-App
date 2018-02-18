@@ -19,13 +19,19 @@ class App extends React.Component {
     };
   }
 
-  onChangeHandler = (title, allChars) => {
-    const note = {
-      title,
-      content: allChars,
-    };
+  onChangeHandler = (notekey, title, allChars) => {
     const { storeNotes } = this.state;
-    storeNotes.push(note);
+    if (notekey === null) {
+      const note = {
+        title,
+        content: allChars,
+        id: this.state.storeNotes.length + 1,
+      };
+      storeNotes.push(note);
+    } else {
+      storeNotes[notekey - 1].title = title;
+      storeNotes[notekey - 1].content = allChars;
+    }
     this.setState({
       storeNotes,
       page: 2,
@@ -41,9 +47,29 @@ class App extends React.Component {
 
   setPage = () => {
     if (this.state.page === 1) {
-      return (<div className="complete"><Back onChange={this.onChangeHandler} page={this.state.page} /></div>);
+      return (
+        <div
+          className="complete"
+        >
+          <Back
+            onChange={this.onChangeHandler}
+            page={this.state.page}
+            storeNotes={this.state.storeNotes}
+          />
+        </div>
+      );
     }
-    return (<div className="App-main"><Back onChange={this.onChangeHandlerPg2} page={this.state.page} storeNotes={this.state.storeNotes} length={this.state.length} /></div>);
+    return (
+      <div className="App-main">
+        <Back
+          onChange={this.onChangeHandlerPg2}
+          page={this.state.page}
+          onChange1={this.onChangeHandler}
+          storeNotes={this.state.storeNotes}
+          length={this.state.length}
+        />
+      </div>
+    );
   }
 
   render() {

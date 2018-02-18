@@ -23,8 +23,12 @@ class Back extends React.Component {
     };
   }
 
-  onChangeHandler = (title, allChars) => {
-    this.props.onChange(title, allChars);
+  onChangeHandler1 = (notekey, title, content) => {
+    this.props.onChange(notekey, title, content);
+  }
+
+  onChangeHandler = (notekey, title, allChars) => {
+    this.props.onChange(notekey, title, allChars);
   }
 
   onChangeHandlerFooter = () => {
@@ -33,9 +37,39 @@ class Back extends React.Component {
 
   setPage = () => {
     if (this.props.page === 1) {
-      return (<div className="App-main"><Header title="Start Taking Notes" /><Container onChange={this.onChangeHandler} page={this.props.page} /><Footer value="About Us" page={this.props.page} onChange={this.onChangeHandlerFooter} /></div>);
+      return (
+        <div className="App-main">
+          <Header title="Start Taking Notes" />
+          <Container
+            onChange={this.onChangeHandler}
+            storeNotes={this.props.storeNotes}
+            page={this.props.page}
+          />
+          <Footer
+            value="About Us"
+            page={this.props.page}
+            onChange={this.onChangeHandlerFooter}
+          />
+        </div>
+      );
     }
-    return (<div className="App-main"><Header title="Saved Notes" /><Container page={this.props.page} storeNotes={this.props.storeNotes} onChange={this.onChangeHandler} length={this.props.length} /><Footer value="Create new Note" page={this.props.page} onChange={this.onChangeHandlerFooter} /></div>);
+    return (
+      <div className="App-main">
+        <Header title="Saved Notes" />
+        <Container
+          page={this.props.page}
+          storeNotes={this.props.storeNotes}
+          onChange={this.onChangeHandler}
+          onChange1={this.onChangeHandler1}
+          length={this.props.length}
+        />
+        <Footer
+          value="Create new Note"
+          page={this.props.page}
+          onChange={this.onChangeHandlerFooter}
+        />
+      </div>
+    );
   }
 
   render() {

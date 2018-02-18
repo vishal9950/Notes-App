@@ -30,11 +30,14 @@ class Container extends React.Component {
       maxLen: 150,
       charLen: 150,
       allChars: '',
-      // storeNotes: [],
+      // storedNotes: this.props.storeNotes,
       title: '',
+      notekey: null,
+      // rows: [],
     };
     Container.propTypes = {
       onChange: PropTypes.func.isRequired,
+      // onChange1: PropTypes.func.isRequired,
       page: PropTypes.number.isRequired,
       storeNotes: PropTypes.array.isRequired,
       length: PropTypes.number.isRequired,
@@ -45,12 +48,34 @@ class Container extends React.Component {
   }
 
   onClickHandler = () => {
-    this.props.onChange(this.state.title, this.state.allChars);
+    this.props.onChange(this.state.notekey, this.state.title, this.state.allChars);
     this.setState({
       maxLen: 150,
       charLen: 150,
       allChars: '',
       title: '',
+      notekey: null,
+    });
+  }
+
+  onChangeHandler = (notekey, title, content, charLength) => {
+    this.state.notekey = notekey;
+    // const newStoreNotes = this.props.storeNotes;
+    const { storeNotes } = this.props;
+    this.props.onChange();
+    let i;
+    for (i = 0; i < this.props.length; i += 1) {
+      if (storeNotes[i].id === notekey) {
+        storeNotes[i].title = title;
+        storeNotes[i].content = content;
+        break;
+      }
+    }
+    this.setState({
+      maxLen: 150,
+      charLen: this.state.maxLen - charLength,
+      allChars: content,
+      title,
     });
   }
 
@@ -71,10 +96,17 @@ class Container extends React.Component {
     const rows = [];
     for (let i = 0; i < this.props.length; i += 1) {
       rows.push(<NoteWrapper
+        key={this.props.storeNotes[i].id}
+        notekey={this.props.storeNotes[i].id}
         title={this.props.storeNotes[i].title}
         content={this.props.storeNotes[i].content}
+        onChange={this.onChangeHandler}
       />);
     }
+
+    // this.state.notekey = rows.notekey;
+
+    // this.state.rows = rows;
 
     if (this.props.page === 1) {
       return (
@@ -82,7 +114,14 @@ class Container extends React.Component {
           <div><ContentHead value="Note Title" /><ContentHeadSide value="en" /></div>
           <div><TextInputfirst value={this.state.title} placeholder="Note Title" onChange={this.updatetitle} /></div>
           <div><Desc text="Please type your note below" icon="assignment" /></div>
-          <div><Note value={this.state.allChars} placeholder="Your note goes here..." maxLen={this.state.maxLen} onChange={this.checkCharLimit} style={style} /></div>
+          <div><Note
+            value={this.state.allChars}
+            placeholder="Your note goes here..."
+            maxLen={this.state.maxLen}
+            onChange={this.checkCharLimit}
+            style={style}
+          />
+          </div>
           <div><Save value="Save" onClick={this.onClickHandler} />
             <CharLimit limit={this.state.charLen} value=" characters left" />
           </div>
