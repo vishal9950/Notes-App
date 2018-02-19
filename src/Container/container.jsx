@@ -1,6 +1,6 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-
+import { connect } from 'react-redux';
 import './container.css';
 import ContentHead from '../ContentHead/content-head';
 import ContentHeadSide from '../ContentHeadSide/content-head-side';
@@ -94,12 +94,13 @@ class Container extends React.Component {
     }
 
     const rows = [];
-    for (let i = 0; i < this.props.length; i += 1) {
+    const { storeNotes } = this.props;
+    for (let i = 0; i < storeNotes.length; i += 1) {
       rows.push(<NoteWrapper
-        key={this.props.storeNotes[i].id}
-        notekey={this.props.storeNotes[i].id}
-        title={this.props.storeNotes[i].title}
-        content={this.props.storeNotes[i].content}
+        key={storeNotes[i].id}
+        notekey={storeNotes[i].id}
+        title={storeNotes[i].title}
+        content={storeNotes[i].content}
         onChange={this.onChangeHandler}
       />);
     }
@@ -167,4 +168,8 @@ class Container extends React.Component {
   }
 }
 
-export default Container;
+const mapStateToProps = state => ({
+  storeNotes: state.reducer.savedNotes,
+});
+
+export default connect(mapStateToProps, null)(Container);

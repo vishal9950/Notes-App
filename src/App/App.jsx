@@ -1,8 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-
+import { connect } from 'react-redux';
+import { PropTypes } from 'prop-types';
 import './App.css';
 import Back from '../Back/back';
+import action from '../redux/actions';
 
 // const App = () => (
 //   <div className="complete"><Back /></div>
@@ -13,29 +14,41 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      storeNotes: [],
+      // storeNotes: [],
       page: 1,
       length: 0,
+    };
+    App.propTypes = {
+      storeNotes: PropTypes.func.isRequired,
+      saveNote1: PropTypes.func.isRequired,
+      updateNote1: PropTypes.func.isRequired,
     };
   }
 
   onChangeHandler = (notekey, title, allChars) => {
-    const { storeNotes } = this.state;
+    console.log(notekey, title, allChars);
+    const { storeNotes, saveNote1, updateNote1 } = this.props;
     if (notekey === null) {
       const note = {
         title,
         content: allChars,
-        id: this.state.storeNotes.length + 1,
+        id: storeNotes.length + 1,
       };
-      storeNotes.push(note);
+      saveNote1(note);
+      // storeNotes.push(note);
     } else {
-      storeNotes[notekey - 1].title = title;
-      storeNotes[notekey - 1].content = allChars;
+      const note = {
+        title,
+        content: allChars,
+        id: notekey,
+      };
+      updateNote1(note);
+      // storeNotes[notekey - 1].title = title;
+      // storeNotes[notekey - 1].content = allChars;
     }
     this.setState({
-      storeNotes,
       page: 2,
-      length: this.state.storeNotes.length,
+      length: storeNotes.length,
     });
   }
 
@@ -54,7 +67,7 @@ class App extends React.Component {
           <Back
             onChange={this.onChangeHandler}
             page={this.state.page}
-            storeNotes={this.state.storeNotes}
+            // storeNotes={this.props.storeNotes}
           />
         </div>
       );
@@ -65,7 +78,7 @@ class App extends React.Component {
           onChange={this.onChangeHandlerPg2}
           page={this.state.page}
           onChange1={this.onChangeHandler}
-          storeNotes={this.state.storeNotes}
+          // storeNotes={this.props.storeNotes}
           length={this.state.length}
         />
       </div>
@@ -79,11 +92,20 @@ class App extends React.Component {
   }
 }
 
-const render = () => {
-  ReactDOM.render(
-    <App />,
-    document.getElementById('root'),
-  );
-};
+const mapStateToProps = state => ({
+  storeNotes: state.reducer.savedNotes,
+});
 
-export default render;
+const mapDispatchToProps = dispatch => ({
+  saveNote1: (note) => { dispatch(action.saveNote(note)); },
+  updateNote1: (note) => { dispatch(action.updateNote(note)); },
+});
+
+// const render = () => {
+//   ReactDOM.render(
+//     <App />,
+//     document.getElementById('root'),
+//   );
+// };
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

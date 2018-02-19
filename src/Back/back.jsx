@@ -1,6 +1,6 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-
+import { connect } from 'react-redux';
 import './back.css';
 import Header from '../Header/header';
 import Footer from '../Footer/footer';
@@ -58,7 +58,7 @@ class Back extends React.Component {
         <Header title="Saved Notes" />
         <Container
           page={this.props.page}
-          storeNotes={this.props.storeNotes}
+          // storeNotes={this.props.storeNotes}
           onChange={this.onChangeHandler}
           onChange1={this.onChangeHandler1}
           length={this.props.length}
@@ -78,4 +78,8 @@ class Back extends React.Component {
   }
 }
 
-export default Back;
+const mapStateToProps = state => ({
+  storeNotes: state.reducer.savedNotes,
+});
+
+export default connect(mapStateToProps, null)(Back);
