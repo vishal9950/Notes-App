@@ -1,6 +1,7 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
+import action from '../redux/actions';
 import './container.css';
 import ContentHead from '../ContentHead/content-head';
 import ContentHeadSide from '../ContentHeadSide/content-head-side';
@@ -41,6 +42,7 @@ class Container extends React.Component {
       page: PropTypes.number.isRequired,
       storeNotes: PropTypes.array.isRequired,
       length: PropTypes.number.isRequired,
+      insertNotes1: PropTypes.func.isRequired,
     };
     // this.checkCharLimit = this.checkCharLimit.bind(this);
     // this.onClickHandler = this.onClickHandler.bind(this);
@@ -97,8 +99,8 @@ class Container extends React.Component {
     const { storeNotes } = this.props;
     for (let i = 0; i < storeNotes.length; i += 1) {
       rows.push(<NoteWrapper
-        key={storeNotes[i].id}
-        notekey={storeNotes[i].id}
+        key={storeNotes[i].noteid}
+        notekey={storeNotes[i].noteid}
         title={storeNotes[i].title}
         content={storeNotes[i].content}
         onChange={this.onChangeHandler}
@@ -131,6 +133,7 @@ class Container extends React.Component {
     }
     return (
       <div className="Container-note">
+        <button className="Container-sync" onClick={() => this.props.insertNotes1(this.props.storeNotes)}>Sync</button>
         {rows}
       </div>
     );
@@ -172,4 +175,8 @@ const mapStateToProps = state => ({
   storeNotes: state.reducer.savedNotes,
 });
 
-export default connect(mapStateToProps, null)(Container);
+const mapDispatchToProps = dispatch => ({
+  insertNotes1: (notes) => { dispatch(action.insertNotes(notes)); },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Container);

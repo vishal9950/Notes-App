@@ -1,14 +1,15 @@
 import React from 'react';
+import axios from 'axios';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import './App.css';
+
 import Back from '../Back/back';
 import action from '../redux/actions';
 
 // const App = () => (
 //   <div className="complete"><Back /></div>
 // );
-
 
 class App extends React.Component {
   constructor(props) {
@@ -19,10 +20,18 @@ class App extends React.Component {
       length: 0,
     };
     App.propTypes = {
-      storeNotes: PropTypes.func.isRequired,
+      storeNotes: PropTypes.array.isRequired,
       saveNote1: PropTypes.func.isRequired,
       updateNote1: PropTypes.func.isRequired,
+      getNotes1: PropTypes.func.isRequired,
     };
+  }
+
+  componentDidMount() {
+    axios('/sync').then((notes) => {
+      const { getNotes1 } = this.props;
+      getNotes1(notes.data);
+    });
   }
 
   onChangeHandler = (notekey, title, allChars) => {
@@ -32,7 +41,7 @@ class App extends React.Component {
       const note = {
         title,
         content: allChars,
-        id: storeNotes.length + 1,
+        noteid: storeNotes.length + 1,
       };
       saveNote1(note);
       // storeNotes.push(note);
@@ -40,7 +49,7 @@ class App extends React.Component {
       const note = {
         title,
         content: allChars,
-        id: notekey,
+        noteid: notekey,
       };
       updateNote1(note);
       // storeNotes[notekey - 1].title = title;
@@ -99,6 +108,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   saveNote1: (note) => { dispatch(action.saveNote(note)); },
   updateNote1: (note) => { dispatch(action.updateNote(note)); },
+  getNotes1: (notes) => { dispatch(action.getNotes(notes)); },
 });
 
 // const render = () => {

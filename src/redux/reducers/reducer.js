@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 const defaultState = {
   savedNotes: [],
 };
@@ -12,11 +14,33 @@ const reducer = (prevState = defaultState, action) => {
     }
     case 'UPDATE_NOTE': {
       const currNote = prevState.savedNotes;
-      currNote[action.payload.id - 1] = Object.assign({}, action.payload);
+      currNote[action.payload.noteid - 1] = Object.assign({}, action.payload);
       return {
         ...prevState,
         savedNotes: currNote,
       };
+    }
+    case 'GET_NOTES': {
+      const notes = action.payload;
+      // console.log(notes);
+      // const formattednotes = notes.reduce((newObj, note) => {
+      //   const tempObj = { ...newObj };
+      //   tempObj[Number(note.noteid)] = note;
+      //   return tempObj;
+      // }, {});
+      return {
+        ...prevState,
+        savedNotes: notes,
+      };
+    }
+    case 'INSERT_NOTES': {
+      const options = {
+        url: '/sync',
+        method: 'PUT',
+        data: action.payload,
+      };
+      axios(options);
+      return prevState;
     }
     default: {
       return prevState;

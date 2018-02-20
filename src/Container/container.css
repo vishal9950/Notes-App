@@ -4,5 +4,11 @@
 
 .Container-note {
     position: relative;
-    top: 40px;
+    top: 60px;
+}
+
+.Container-sync {
+    position: relative;
+    top: 10px;
+    left: 48%;
 }
